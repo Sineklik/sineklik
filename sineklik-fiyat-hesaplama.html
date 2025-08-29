@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sineklik Fiyat Hesaplama | Fenster Systems</title>
+  <meta name="description" content="Sineklik fiyat hesabı için m² alanı ve birim fiyat girin. Adet, KDV ve fire ekleyin. Hızlı, mobil uyumlu hesaplama. Yazan: KARAKAR Web." />
+  <meta name="author" content="KARAKAR Web" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Sineklik Fiyat Hesaplama" />
+  <meta property="og:description" content="Metrekareye göre sineklik fiyatını anında hesaplayın. Adet, KDV, fire ve para birimi desteği." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="tr_TR" />
+  <meta name="theme-color" content="#0f172a" />
+  <!--
+    Yayın: GitHub Pages için bu dosyayı doğrudan repo köküne koyun.
+    Örn: https://github.com/USER/sineklik-fiyat-hesaplama → Settings → Pages → Deploy from branch.
+  -->
+  <style>
+    :root{
+      --bg:#0b1220; /* gece laciverti */
+      --card:#0f172a; /* slate-900 */
+      --muted:#94a3b8; /* slate-400 */
+      --text:#e2e8f0; /* slate-200 */
+      --brand:#22c55e; /* yeşil */
+      --ring:#38bdf8; /* odak rengi */
+      --danger:#ef4444;
+      --ok:#10b981;
+      --shadow:0 10px 24px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.2);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Noto Sans',sans-serif;
+      background: radial-gradient(1200px 600px at 70% -10%, rgba(34,197,94,.15), transparent 60%),
+                  radial-gradient(900px 500px at 0% 0%, rgba(56,189,248,.15), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.5;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .container{max-width:1100px;margin-inline:auto;padding:24px}
+    header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:10px 0 24px}
+    h1{font-size:clamp(22px,4.6vw,36px);margin:0}
+    .sub{color:var(--muted);font-size:14px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+          border:1px solid rgba(148,163,184,.18); border-radius:var(--radius); box-shadow:var(--shadow);}
+    .grid{display:grid;gap:14px}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media (max-width:720px){.grid-2{grid-template-columns:1fr}}
+    .pad{padding:18px}
+    label{display:block;font-size:13px;color:var(--muted);margin:8px 0 6px}
+    input,select,button{font:inherit}
+    .field{position:relative}
+    input[type=number], input[type=text], select{
+      width:100%; padding:12px 12px; border-radius:12px; border:1px solid rgba(148,163,184,.25);
+      background:#0b1220; color:var(--text); outline:none;
+      transition:border-color .15s, box-shadow .15s;
+    }
+    input:focus, select:focus{border-color:var(--ring); box-shadow:0 0 0 3px rgba(56,189,248,.25)}
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
+    .btn{padding:12px 14px; border:none; border-radius:12px; cursor:pointer; font-weight:600}
+    .btn-primary{background:linear-gradient(180deg,#22c55e,#16a34a); color:#04140a}
+    .btn-ghost{background:transparent; color:var(--muted); border:1px dashed rgba(148,163,184,.35)}
+    .btn-danger{background:linear-gradient(180deg,#ef4444,#b91c1c); color:#fff}
+    .kpis{display:grid; gap:10px; grid-template-columns:repeat(4,minmax(0,1fr));}
+    @media (max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:520px){.kpis{grid-template-columns:1fr}}
+    .kpi{padding:14px;border:1px solid rgba(148,163,184,.18);border-radius:14px;background:rgba(15,23,42,.55)}
+    .kpi h3{margin:0 0 4px; font-size:13px; color:var(--muted)}
+    .kpi .val{font-size:22px; font-weight:700}
+    .muted{color:var(--muted)}
+    .footer{margin:28px 0 12px; color:var(--muted); font-size:13px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:10px}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.45);color:#86efac;padding:6px 10px;border-radius:999px;font-size:12px}
+    .tip{font-size:13px;color:var(--muted)}
+    .hr{height:1px;background:linear-gradient(to right, transparent, rgba(148,163,184,.25), transparent); margin:14px 0}
+    .warn{color:#fde68a}
+    .ok{color:#bbf7d0}
+    .danger{color:#fecaca}
+    .switch{display:inline-flex;align-items:center;gap:8px}
+    .switch input{appearance:none;width:44px;height:26px;background:#1f2937;border-radius:999px;position:relative;outline:none;border:1px solid rgba(148,163,184,.3);cursor:pointer}
+    .switch input:checked{background:#14532d;border-color:#16a34a}
+    .switch input:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:999px;background:#e2e8f0;transition:left .18s}
+    .switch input:checked:before{left:22px}
+    .note{font-size:12px;color:var(--muted)}
+    .link{color:#93c5fd;text-decoration:none;border-bottom:1px dotted rgba(147,197,253,.6)}
+    .results-table{width:100%;border-collapse:collapse}
+    .results-table th, .results-table td{padding:10px 8px;text-align:left;border-bottom:1px solid rgba(148,163,184,.15)}
+    .results-table th{color:var(--muted); font-weight:600}
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sineklik Fiyat Hesaplama",
+    "url": "",
+    "applicationCategory": "BusinessApplication",
+    "offers": {"@type":"Offer","price":"0","priceCurrency":"TRY"},
+    "creator": {"@type":"Organization","name":"KARAKAR Web"},
+    "author": {"@type":"Organization","name":"KARAKAR Web"},
+    "publisher": {"@type":"Organization","name":"Fenster Systems"}
+  }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Sineklik Fiyat Hesaplama</h1>
+        <div class="sub">Metrekareye göre hızlı, doğru ve mobil uyumlu hesaplama.</div>
+      </div>
+      <div class="brand">
+        <span class="badge" aria-label="Sahibi: Fenster Systems">Sahibi: <strong>Fenster Systems</strong></span>
+      </div>
+    </header>
+
+    <section class="card pad" aria-labelledby="formTitle">
+      <h2 id="formTitle" style="margin:0 0 8px;font-size:18px">Hesaplama Parametreleri</h2>
+      <div class="grid grid-2">
+        <div class="field">
+          <label for="width">Genişlik (cm)</label>
+          <input id="width" type="number" min="0" step="0.1" inputmode="decimal" placeholder="ör. 120" aria-describedby="wHelp" />
+          <div id="wHelp" class="note">Metre yerine santimetre girin. 120 cm = 1,2 m.</div>
+        </div>
+        <div class="field">
+          <label for="height">Yükseklik (cm)</label>
+          <input id="height" type="number" min="0" step="0.1" inputmode="decimal" placeholder="ör. 160" aria-describedby="hHelp" />
+          <div id="hHelp" class="note">Örn. 160 cm = 1,6 m.</div>
+        </div>
+        <div class="field">
+          <label for="qty">Adet</label>
+          <input id="qty" type="number" min="1" step="1" inputmode="numeric" value="1" />
+        </div>
+        <div class="field">
+          <label for="price">Birim Fiyat / m²</label>
+          <input id="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="ör. 1450" />
+        </div>
+        <div class="field">
+          <label for="waste">Fire (%)</label>
+          <input id="waste" type="number" min="0" step="1" inputmode="numeric" value="0" />
+        </div>
+        <div class="field">
+          <label for="vat">KDV (%)</label>
+          <input id="vat" type="number" min="0" step="1" inputmode="numeric" value="20" />
+        </div>
+        <div class="field">
+          <label for="currency">Para Birimi</label>
+          <select id="currency" aria-label="Para birimi">
+            <option value="TRY" selected>₺ Türk Lirası</option>
+            <option value="EUR">€ Euro</option>
+            <option value="USD">$ ABD Doları</option>
+            <option value="GBP">£ Pound</option>
+            <option value="CUSTOM">Özel sembol…</option>
+          </select>
+        </div>
+        <div class="field" id="customCurWrap" style="display:none">
+          <label for="customCurrency">Özel Sembol</label>
+          <input id="customCurrency" type="text" maxlength="4" placeholder="ör. ₺" />
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" id="calcBtn" type="button">Hesapla</button>
+        <button class="btn btn-ghost" id="shareBtn" type="button" title="Değerleri bağlantıya ekle">Bağlantıyı Güncelle</button>
+        <button class="btn btn-danger" id="resetBtn" type="button">Sıfırla</button>
+        <label class="switch" title="KDV dâhil toplam göster">
+          <input id="vatToggle" type="checkbox" checked>
+          <span>KDV dâhil</span>
+        </label>
+      </div>
+      <div class="hr"></div>
+      <p class="tip">Formu doldurup <strong>Hesapla</strong> düğmesine basın. Enter tuşu da çalışır. Değerleri URL’ye yazmak için <strong>Bağlantıyı Güncelle</strong> seçeneğini kullanın.</p>
+    </section>
+
+    <section class="card pad" aria-labelledby="resultsTitle" style="margin-top:16px">
+      <h2 id="resultsTitle" style="margin:0 0 8px;font-size:18px">Sonuçlar</h2>
+
+      <div class="kpis" aria-live="polite" aria-atomic="true">
+        <div class="kpi"><h3>Parça Alanı (m²)</h3><div class="val" id="areaEach">–</div></div>
+        <div class="kpi"><h3>Toplam Alan (m²)</h3><div class="val" id="areaTotal">–</div></div>
+        <div class="kpi"><h3>Adet Başı Fiyat</h3><div class="val" id="priceEach">–</div></div>
+        <div class="kpi"><h3>Genel Toplam</h3><div class="val" id="grandTotal">–</div></div>
+      </div>
+
+      <div class="hr"></div>
+
+      <table class="results-table" aria-describedby="resNote">
+        <tbody>
+          <tr><th>Genişlik × Yükseklik</th><td id="wh">–</td></tr>
+          <tr><th>Fire Uygulaması</th><td id="wasteInfo">%0</td></tr>
+          <tr><th>Birim Fiyat (m²)</th><td id="unitPrice">–</td></tr>
+          <tr><th>Adet</th><td id="qtyInfo">1</td></tr>
+          <tr><th>Ara Toplam</th><td id="subTotal">–</td></tr>
+          <tr><th>KDV</th><td id="vatAmount">–</td></tr>
+          <tr><th><strong>Genel Toplam</strong></th><td id="grandRow">–</td></tr>
+        </tbody>
+      </table>
+
+      <p id="resNote" class="note">Hesaplama bilgilendirme amaçlıdır; teklif niteliği taşımaz.</p>
+    </section>
+
+    <section class="pad" style="opacity:.9">
+      <p class="tip">İpucu: Genişlik ve yükseklik <strong>cm</strong> girilir. Metrekare hesabı otomatik yapılır.
+      Fire alanı üretim kaybını yansıtmak içindir. KDV oranını yerel mevzuata göre güncelleyin.</p>
+    </section>
+
+    <footer class="footer">
+      <div>Yazan: <strong>KARAKAR Web</strong> · Sahibi: <strong>Fenster Systems</strong></div>
+      <div class="note">v1.0 · <span class="ok">Mobil uyumlu</span> · <span class="warn">URL ile paylaşılabilir</span></div>
+    </footer>
+  </div>
+
+  <noscript>
+    Bu uygulama JavaScript olmadan çalışmaz. Lütfen tarayıcınızda JavaScript’i etkinleştirin.
+  </noscript>
+
+  <script>
+    const $ = (sel) => document.querySelector(sel);
+    const els = {
+      width: $('#width'), height: $('#height'), qty: $('#qty'), price: $('#price'),
+      waste: $('#waste'), vat: $('#vat'), currency: $('#currency'), customCurrency: $('#customCurrency'),
+      customCurWrap: $('#customCurWrap'),
+      vatToggle: $('#vatToggle'),
+      areaEach: $('#areaEach'), areaTotal: $('#areaTotal'), priceEach: $('#priceEach'), grandTotal: $('#grandTotal'),
+      unitPrice: $('#unitPrice'), subTotal: $('#subTotal'), vatAmount: $('#vatAmount'), grandRow: $('#grandRow'),
+      wh: $('#wh'), qtyInfo: $('#qtyInfo'), wasteInfo: $('#wasteInfo')
+    };
+
+    function symbolFor(code){
+      if(code==='TRY') return '₺';
+      if(code==='EUR') return '€';
+      if(code==='USD') return '$';
+      if(code==='GBP') return '£';
+      return els.customCurrency.value || '₺';
+    }
+
+    function fmtMoney(val, code){
+      const sym = symbolFor(code);
+      const num = isFinite(val)? Number(val) : 0;
+      // Türkçe gösterim
+      return sym + ' ' + num.toLocaleString('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+    function fmtNum(val, digits=3){
+      const num = isFinite(val)? Number(val) : 0;
+      return num.toLocaleString('tr-TR', {minimumFractionDigits:0, maximumFractionDigits:digits});
+    }
+
+    function toParams(){
+      const p = new URLSearchParams();
+      p.set('w', els.width.value||'');
+      p.set('h', els.height.value||'');
+      p.set('q', els.qty.value||'1');
+      p.set('pr', els.price.value||'');
+      p.set('ws', els.waste.value||'0');
+      p.set('vat', els.vat.value||'20');
+      p.set('cur', els.currency.value);
+      if(els.currency.value==='CUSTOM') p.set('sym', els.customCurrency.value||'');
+      p.set('vd', els.vatToggle.checked? '1':'0');
+      return p.toString();
+    }
+    function fromParams(){
+      const p = new URLSearchParams(location.search);
+      const get = (k, d='') => p.get(k) ?? d;
+      if(p.size===0) return; // boşsa dokunma
+      els.width.value = get('w');
+      els.height.value = get('h');
+      els.qty.value = get('q','1');
+      els.price.value = get('pr');
+      els.waste.value = get('ws','0');
+      els.vat.value = get('vat','20');
+      const cur = get('cur','TRY');
+      els.currency.value = cur;
+      if(cur==='CUSTOM'){
+        els.customCurWrap.style.display='block';
+        els.customCurrency.value = get('sym','');
+      }
+      els.vatToggle.checked = get('vd','1')==='1';
+    }
+
+    function validate(){
+      const w = parseFloat(els.width.value), h = parseFloat(els.height.value);
+      const pr = parseFloat(els.price.value), q = parseInt(els.qty.value||'1');
+      if(!(w>0 && h>0 && pr>=0 && q>=1)) return false;
+      return true;
+    }
+
+    function compute(){
+      if(!validate()){
+        const msg = 'Lütfen genişlik, yükseklik, adet ve birim fiyat alanlarını kontrol edin.';
+        els.areaEach.textContent = '–';
+        els.areaTotal.textContent = '–';
+        els.priceEach.textContent = '–';
+        els.grandTotal.textContent = '–';
+        els.wh.textContent = msg;
+        els.unitPrice.textContent = '–';
+        els.subTotal.textContent = '–';
+        els.vatAmount.textContent = '–';
+        els.grandRow.textContent = '–';
+        els.qtyInfo.textContent = '–';
+        els.wasteInfo.textContent = '–';
+        return;
+      }
+      const w = parseFloat(els.width.value);
+      const h = parseFloat(els.height.value);
+      const q = parseInt(els.qty.value||'1');
+      const pr = parseFloat(els.price.value);
+      const waste = Math.max(0, parseFloat(els.waste.value||'0'));
+      const vatR = Math.max(0, parseFloat(els.vat.value||'0'));
+      const cur = els.currency.value;
+
+      // cm → m²
+      const areaEach = (w/100) * (h/100); // m²
+      const areaEachWithWaste = areaEach * (1 + waste/100);
+      const areaTotal = areaEachWithWaste * q;
+
+      const priceEach = areaEachWithWaste * pr;
+      const subTotal = priceEach * q; // aynı: areaTotal * pr
+      const vatAmt = subTotal * (vatR/100);
+      const grand = els.vatToggle.checked ? (subTotal + vatAmt) : subTotal;
+
+      els.areaEach.textContent = fmtNum(areaEachWithWaste, 3);
+      els.areaTotal.textContent = fmtNum(areaTotal, 3);
+      els.priceEach.textContent = fmtMoney(priceEach, cur);
+      els.grandTotal.textContent = fmtMoney(grand, cur);
+
+      els.wh.textContent = `${fmtNum(w,1)} cm × ${fmtNum(h,1)} cm`;
+      els.wasteInfo.textContent = `%${fmtNum(waste, 1)}`;
+      els.unitPrice.textContent = fmtMoney(pr, cur) + ' / m²';
+      els.qtyInfo.textContent = String(q);
+      els.subTotal.textContent = fmtMoney(subTotal, cur);
+      els.vatAmount.textContent = fmtMoney(vatAmt, cur) + ` (${fmtNum(vatR,1)}%)`;
+      els.grandRow.textContent = fmtMoney(grand, cur) + (els.vatToggle.checked ? ' (KDV dâhil)':' (KDV hariç)');
+    }
+
+    // Etkinlikler
+    $('#calcBtn').addEventListener('click', compute);
+    $('#resetBtn').addEventListener('click', () => { document.querySelector('form')?.reset(); location.search=''; location.reload(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); compute(); }});
+    $('#shareBtn').addEventListener('click', ()=>{
+      const q = toParams();
+      const url = location.pathname + '?' + q;
+      history.replaceState(null, '', url);
+      const t = document.createElement('textarea');
+      t.value = location.href; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove();
+      const old = $('#shareBtn').textContent; $('#shareBtn').textContent = 'Bağlantı kopyalandı';
+      setTimeout(()=> $('#shareBtn').textContent = old, 1800);
+    });
+
+    els.currency.addEventListener('change', ()=>{
+      const custom = els.currency.value==='CUSTOM';
+      els.customCurWrap.style.display = custom? 'block':'none';
+    });
+
+    // İlk yükleme
+    fromParams();
+  </script>
+</body>
+</html>
