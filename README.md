@@ -1,16 +1,22 @@
-## Hi there 👋
+# 🪟 Sineklik Fiyat Hesaplama
 
-<!--
-**Sineklik/sineklik** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Metrekare bazlı **[Sineklik](https://www.fenstersystems.com/)** fiyat hesaplama uygulaması.  
+Kullanıcılar genişlik ve yükseklik ölçülerini (cm), adet, fire (%) ve KDV oranlarını girerek hızlı şekilde toplam maliyet elde edebilir.  
+Uygulama modern arayüzü, mobil uyumu ve paylaşılabilir bağlantı özelliği ile hem bireysel kullanıcılar hem de sektör profesyonelleri için idealdir.
 
-Here are some ideas to get you started:
+---
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## 🚀 Öne Çıkan Özellikler
+- 📏 **Metrekare hesabı** (cm → m² otomatik çevirim)
+- 🔢 **Adet, fire (%) ve KDV (%) desteği**
+- 💱 Çoklu **para birimi seçeneği** (₺, €, $, £ veya özel sembol)
+- 🔄 **KDV dâhil/hariç** toplam gösterimi
+- 🔗 **URL paylaşma özelliği** (girilen değerleri bağlantıya ekler, kolay kopyalanır)
+- 📱 **Mobil uyumlu tasarım** ve yüksek performanslı arayüz
+
+---
+
+## 📦 Kurulum ve Kullanım
+1. Projeyi klonlayın veya indirin:
+   ```bash
+   git clone https://github.com/KULLANICI_ADI/sineklik-fiyat-hesaplama.git
